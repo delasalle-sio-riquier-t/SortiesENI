@@ -29,7 +29,8 @@
         "symfony/validator": "4.4.*",
         "symfony/var-dumper": "4.4.*",
         "symfony/web-profiler-bundle": "4.4.*",
-        "symfony/yaml": "4.4.*"
+        "symfony/yaml": "4.4.*",
+        "twig/twig": "^2.0"
     },
     "config": {
         "preferred-install": {
