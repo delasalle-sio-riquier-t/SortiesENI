@@ -25,7 +25,7 @@ class Site
     private $idSite;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", length=30, unique=true)
      */
     private $nom;
 
@@ -99,6 +99,6 @@ class Site
     }
     public function __toString()
     {
-        return $this->$nom;
+        return $this->nom;
     }
 }
