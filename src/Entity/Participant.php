@@ -56,11 +56,6 @@ class Participant implements UserInterface
     /**
      * @ORM\Column(type="boolean")
      */
-    private $administrateur;
-
-    /**
-     * @ORM\Column(type="boolean")
-     */
     private $actif;
 
     /**
@@ -198,18 +193,6 @@ class Participant implements UserInterface
     public function setNom(string $nom): self
     {
         $this->nom = $nom;
-
-        return $this;
-    }
-
-    public function getAdministrateur(): ?bool
-    {
-        return $this->administrateur;
-    }
-
-    public function setAdministrateur(bool $administrateur): self
-    {
-        $this->administrateur = $administrateur;
 
         return $this;
     }

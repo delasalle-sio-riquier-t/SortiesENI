@@ -42,6 +42,10 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
             ])
+            ->add('telephone')
+            ->add('prenom')
+            ->add('nom')
+            ->add('site')
         ;
     }
 
@@ -52,3 +56,4 @@ class RegistrationFormType extends AbstractType
         ]);
     }
 }
+
