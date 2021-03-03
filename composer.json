@@ -30,6 +30,7 @@
         "symfony/var-dumper": "4.4.*",
         "symfony/web-profiler-bundle": "4.4.*",
         "symfony/yaml": "4.4.*",
+        "twbs/bootstrap": "^4.6",
         "twig/twig": "^2.0"
     },
     "config": {
