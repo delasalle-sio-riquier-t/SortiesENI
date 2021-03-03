@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\SortieRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -51,6 +53,34 @@ class Sortie
      * @ORM\Column(type="integer", nullable=true)
      */
     private $etatSortie;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Etat::class, inversedBy="no_etat")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $Etat;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Lieu::class, inversedBy="sorties")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $lieu;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Participant::class, inversedBy="sorties")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $organisateur;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Participant::class, inversedBy="SortiesInscrit")
+     */
+    private $ManyToMany;
+
+    public function __construct()
+    {
+        $this->ManyToMany = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -137,6 +167,78 @@ class Sortie
     public function setEtatSortie(?int $etatSortie): self
     {
         $this->etatSortie = $etatSortie;
+
+        return $this;
+    }
+
+    public function getEtat(): ?Etat
+    {
+        return $this->Etat;
+    }
+
+    public function setEtat(?Etat $Etat): self
+    {
+        $this->Etat = $Etat;
+
+        return $this;
+    }
+
+    public function getLieu(): ?Lieu
+    {
+        return $this->lieu;
+    }
+
+    public function setLieu(?Lieu $lieu): self
+    {
+        $this->lieu = $lieu;
+
+        return $this;
+    }
+
+    public function getOrganisateur(): ?Participant
+    {
+        return $this->organisateur;
+    }
+
+    public function setOrganisateur(?Participant $organisateur): self
+    {
+        $this->organisateur = $organisateur;
+
+        return $this;
+    }
+
+    public function getSite(): ?Site
+    {
+        return $this->Site;
+    }
+
+    public function setSite(?Site $Site): self
+    {
+        $this->Site = $Site;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Participant[]
+     */
+    public function getManyToMany(): Collection
+    {
+        return $this->ManyToMany;
+    }
+
+    public function addManyToMany(Participant $manyToMany): self
+    {
+        if (!$this->ManyToMany->contains($manyToMany)) {
+            $this->ManyToMany[] = $manyToMany;
+        }
+
+        return $this;
+    }
+
+    public function removeManyToMany(Participant $manyToMany): self
+    {
+        $this->ManyToMany->removeElement($manyToMany);
 
         return $this;
     }

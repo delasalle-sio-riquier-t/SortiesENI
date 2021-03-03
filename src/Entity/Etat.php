@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\EtatRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -23,9 +25,14 @@ class Etat
     private $libelle;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\OneToMany(targetEntity=Sortie::class, mappedBy="Etat", orphanRemoval=true)
      */
-    private $relation;
+    private $no_etat;
+
+    public function __construct()
+    {
+        $this->no_etat = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -44,14 +51,32 @@ class Etat
         return $this;
     }
 
-    public function getRelation(): ?string
+    /**
+     * @return Collection|Sortie[]
+     */
+    public function getNoEtat(): Collection
     {
-        return $this->relation;
+        return $this->no_etat;
     }
 
-    public function setRelation(string $relation): self
+    public function addNoEtat(Sortie $noEtat): self
     {
-        $this->relation = $relation;
+        if (!$this->no_etat->contains($noEtat)) {
+            $this->no_etat[] = $noEtat;
+            $noEtat->setEtat($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNoEtat(Sortie $noEtat): self
+    {
+        if ($this->no_etat->removeElement($noEtat)) {
+            // set the owning side to null (unless already changed)
+            if ($noEtat->getEtat() === $this) {
+                $noEtat->setEtat(null);
+            }
+        }
 
         return $this;
     }
