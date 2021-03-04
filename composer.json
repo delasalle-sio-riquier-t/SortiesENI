@@ -31,7 +31,8 @@
         "symfony/web-profiler-bundle": "4.4.*",
         "symfony/yaml": "4.4.*",
         "twbs/bootstrap": "^4.6",
-        "twig/twig": "^2.0"
+        "twig/twig": "^2.0",
+      "ext-intl": "*"
     },
     "config": {
         "preferred-install": {
