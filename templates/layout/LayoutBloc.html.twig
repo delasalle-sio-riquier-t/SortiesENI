@@ -14,18 +14,19 @@
     <nav class="navbar navbar-inverse">
         <div class="container-fluid">
             <div class="navbar-header">
-                <a class="navbar-brand" href="#">{% block site %}SortiesENI{% endblock %}</a>
+                {% block site %}<a class="navbar-brand" href="/SortiesENI/public/index">SortiesENI</a>{% endblock %}
             </div>
             <ul class="nav navbar-nav">
-                <li class="active"><a href="#">Accueil</a></li>
+                <li class="active"><a href="/SortiesENI/public/index">Accueil</a></li>
                 {% block Buttons %}
-                <li><a href="#">Page 1</a></li>
+                    <li><a href="#">Villes</a></li>
+                    <li><a href="#">Sites</a></li>
                 {% endblock %}
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 {% block Logins %}
-                    <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-                    <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                    <li><a href="/SortiesENI/public/register"><span class="glyphicon glyphicon-user"></span> Inscription</a></li>
+                    <li><a href="/SortiesENI/public/login"><span class="glyphicon glyphicon-log-in"></span> Connexion</a></li>
                 {% endblock %}
             </ul>
         </div>
