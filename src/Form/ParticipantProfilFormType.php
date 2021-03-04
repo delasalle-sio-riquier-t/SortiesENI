@@ -12,15 +12,36 @@ class ParticipantProfilFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('mail')
-            ->add('roles')
-            ->add('password')
-            ->add('telephone')
             ->add('prenom')
             ->add('nom')
-            ->add('actif')
+            ->add('mail')
+            ->add('telephone')
+            ->add('password')
+            ->add('confirmation')
             ->add('site')
-            ->add('SortiesInscrit')
+            ->add('Photo', FileType::class, [
+                'label' => 'Photo (png, jpg)',
+
+                // unmapped means that this field is not associated to any entity property
+                'mapped' => false,
+
+                // make it optional so you don't have to re-upload the PDF file
+                // every time you edit the Product details
+                'required' => false,
+
+                // unmapped fields can't define their validation using annotations
+                // in the associated entity, so you can use the PHP constraint classes
+                'constraints' => [
+                    new File([
+                        'maxSize' => '1024k',
+                        'mimeTypes' => [
+                            'application/png',
+                            'application/jpg',
+                        ],
+                        'mimeTypesMessage' => 'Please upload a valid png or jpeg document',
+                    ])
+                ],
+            ])
         ;
     }
 
