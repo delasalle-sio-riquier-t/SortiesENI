@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Participant;
 use App\Form\ParticipantProfilFormType;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,7 +19,7 @@ class MonProfilController extends AbstractController
     /**
      * @Route("/mon/profil", name="mon_profil")
      */
-    public function MonProfil(Request $request, EntityManager $em): Response
+    public function MonProfil(Request $request, EntityManagerInterface $em): Response
     {
 
         $participant = new Participant();
