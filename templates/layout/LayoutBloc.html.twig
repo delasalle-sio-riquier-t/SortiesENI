@@ -21,14 +21,17 @@
                 {% block Buttons %}
                     <li><a href="#">Villes</a></li>
                     <li><a href="#">Sites</a></li>
-                    <li><a href="{{ path('mon_profil') }}">Mon Profil</a></li>
                 {% endblock %}
             </ul>
             <ul class="nav navbar-nav navbar-right">
+                {% if not app.user %}
                 {% block Logins %}
                     <li><a href="/SortiesENI/public/register"><span class="glyphicon glyphicon-user"></span> Inscription</a></li>
                     <li><a href="/SortiesENI/public/login"><span class="glyphicon glyphicon-log-in"></span> Connexion</a></li>
                 {% endblock %}
+                {% else %}
+                    <li><a href="{{ path('mon_profil') }}">Mon Profil</a></li>
+                {% endif %}
             </ul>
         </div>
     </nav>

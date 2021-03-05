@@ -4,7 +4,9 @@
 
 {% block site %}<a class="navbar-brand" href="#">SortiesENI</a>{% endblock %}
 
+
 {% block main %}
     <p>Date du jour : {{ "now"|date("m/d/Y") }}</p><br>
-    <p>Participant : </p>
+    <p>Participant : {{ app.user.username }}</p><br>
+
 {% endblock %}
