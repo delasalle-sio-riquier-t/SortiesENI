@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Participant;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
@@ -18,9 +19,16 @@ class ParticipantProfilFormType extends AbstractType
             ->add('nom')
             ->add('mail')
             ->add('telephone')
-            ->add('password')
-            ->add('confirmation')
-            ->add('site')
+            ->add('password', TextType::class, [
+                'label' => 'Password',
+                // unmapped means that this field is not associated to any entity property
+                'mapped' => false,
+            ])
+            ->add('confirmation', TextType::class, [
+                'label' => 'Confirmation',
+                'mapped' => false,
+            ])
+            ->add('Pseudo')
             ->add('Photo', FileType::class, [
                 'label' => 'Photo (png, jpg)',
 
@@ -35,7 +43,7 @@ class ParticipantProfilFormType extends AbstractType
                 // in the associated entity, so you can use the PHP constraint classes
                 'constraints' => [
                     new File([
-                        'maxSize' => '1024k',
+                        'maxSize' => '4096k',
                         'mimeTypes' => [
                             'application/png',
                             'application/jpg',
