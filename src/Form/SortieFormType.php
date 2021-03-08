@@ -21,8 +21,6 @@ class SortieFormType extends AbstractType
             ->add('etatSortie')
             ->add('Etat')
             ->add('lieu')
-            ->add('organisateur')
-            ->add('ManyToMany') //Sortie_Participant (Table non hiéarchique)
         ;
     }
 

@@ -23,7 +23,6 @@ class MonProfilController extends AbstractController
      */
     public function MonProfil(Request $request, EntityManagerInterface $em, UserPasswordEncoderInterface $passwordEncoder): Response
     {
-        $participant = new Participant();
         $participant = $this->getUser();
 
         $form = $this->createForm(ParticipantProfilFormType::class, $participant);
@@ -54,8 +53,6 @@ class MonProfilController extends AbstractController
                 // instead of its contents
                 $participant->setPhoto($newFilename);
             }
-
-            // ... persist the $product variable or any other work
 
             //MDP
             $participant->setPassword(

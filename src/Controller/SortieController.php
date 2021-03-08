@@ -18,18 +18,19 @@ class SortieController extends AbstractController
      */
     public function create(EntityManagerInterface $em): Response
     {
+        //Creation d'une nouvelle sortie
         $sortie = new Sortie();
-        $email = $this->getUser()->getUsername();
 
-        $repo = $this->getDoctrine()->getRepository(Participant::class);
-        $participant = new Participant();
-        $participant = $repo->findBy(['mail' => $email]);
+        //recup de l'user courant
+        $test = $this->getUser();
 
-        $test = (Participant::class) $this->getUser();
+        //set l'organisateur par l'user courant
         $sortie->setOrganisateur($test);
 
+        //creation du formulaire
         $form = $this->createForm( SortieFormType::class,$sortie);
 
+        //condition si formulare validé etc alors on fait le traitement ce dessus pour l'add a la bdd !
 
         return $this->render('sortie/actionsortie.html.twig', [
             'sortieForm' => $form->createView(),

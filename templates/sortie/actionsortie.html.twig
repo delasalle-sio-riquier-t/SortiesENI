@@ -1,7 +1,9 @@
-{% extends 'base.html.twig' %}
+{% extends 'layout/LayoutBloc.html.twig' %}
 
-{% block title %} {{ TypeAction }} Sortie {{ idSortie }}{% endblock %}
+{% block title %} {{ typeAction }} Sortie {% endblock %}
 
-{% block body %}
+{% block main %}
+    {{ form_start(sortieForm) }}
     {{ form_widget(sortieForm) }}
+    {{ form_end(sortieForm) }}
 {% endblock %}
