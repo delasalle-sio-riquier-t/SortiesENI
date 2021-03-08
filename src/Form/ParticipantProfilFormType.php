@@ -53,11 +53,11 @@ class ParticipantProfilFormType extends AbstractType
                 // in the associated entity, so you can use the PHP constraint classes
                 'constraints' => [
                     new File([
-                        'maxSize' => '4096k',
-//                        'mimeTypes' => [
-//                            'image/png',
-//                            'imagejpg',
-//                        ],
+                        'maxSize' => '1000k',
+                        'mimeTypes' => [
+                            'image/png',
+                            'image/jpeg',
+                        ],
                         'mimeTypesMessage' => 'Please upload a valid png or jpeg document',
                     ])
                 ],
