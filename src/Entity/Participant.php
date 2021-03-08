@@ -80,9 +80,15 @@ class Participant implements UserInterface
     private $photo;
 
     /**
+<<<<<<< Updated upstream
      * @ORM\Column(type="string", length=20)
      */
     private $Pseudo;
+=======
+     * @ORM\Column(type="string", length=50, nullable=true)
+     */
+    private $reset_token;
+>>>>>>> Stashed changes
 
     public function __construct()
     {
@@ -300,6 +306,7 @@ class Participant implements UserInterface
         return $this;
     }
 
+<<<<<<< Updated upstream
     public function getPseudo(): ?string
     {
         return $this->Pseudo;
@@ -308,6 +315,16 @@ class Participant implements UserInterface
     public function setPseudo(string $Pseudo): self
     {
         $this->Pseudo = $Pseudo;
+=======
+    public function getResetToken(): ?string
+    {
+        return $this->reset_token;
+    }
+
+    public function setResetToken(?string $reset_token): self
+    {
+        $this->reset_token = $reset_token;
+>>>>>>> Stashed changes
 
         return $this;
     }

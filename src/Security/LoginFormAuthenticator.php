@@ -3,6 +3,8 @@
 namespace App\Security;
 
 use App\Entity\Participant;
+use App\Form\ResetPassType;
+use App\Repository\ParcticipantRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
