@@ -76,6 +76,7 @@ class MonProfilController extends AbstractController
 
         return $this->render('mon_profil/Profil.html.twig', [
             'participantForm' => $form->createView(),
+            'ProfilPictureValue' => $participant->getPhoto(),
         ]);
     }
 }

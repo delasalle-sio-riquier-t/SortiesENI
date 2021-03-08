@@ -7,6 +7,7 @@
     <h1>Profil</h1>
 
     {{ form_start(participantForm) }}
+    <img src="{{ asset('uploads/photos/' ~ ProfilPictureValue) }}" alt="uploads/photos/{{ ProfilPictureValue }}">
         {{ form_widget(participantForm)}}
         <button type="submit" class="btn">Update</button>
     {{ form_end(participantForm) }}
