@@ -4,6 +4,8 @@ namespace App\Form;
 
 use App\Entity\Participant;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -19,17 +21,25 @@ class ParticipantProfilFormType extends AbstractType
             ->add('nom')
             ->add('mail')
             ->add('telephone')
-            ->add('password', TextType::class, [
-                'label' => 'Password',
-                // unmapped means that this field is not associated to any entity property
-                'mapped' => false,
-            ])
-            ->add('confirmation', TextType::class, [
-                'label' => 'Confirmation',
-                'mapped' => false,
-            ])
-            ->add('Pseudo')
-            ->add('Photo', FileType::class, [
+//            ->add('password', TextType::class, [
+//                'label' => 'Password',
+//                // unmapped means that this field is not associated to any entity property
+//                'mapped' => false,
+//            ])
+            ->add('plainPassword', RepeatedType::class, array(
+                'type'              => PasswordType::class,
+                'mapped'            => false,
+                'required'          => false,
+                'first_options'     => array('label' => 'New password'),
+                'second_options'    => array('label' => 'Confirm new password'),
+                'invalid_message' => 'The password fields must match.',
+            ))
+//            ->add('confirmation', TextType::class, [
+//                'label' => 'Confirmation',
+//                'mapped' => false,
+//            ])
+            ->add('pseudo')
+            ->add('photo', FileType::class, [
                 'label' => 'Photo (png, jpg)',
 
                 // unmapped means that this field is not associated to any entity property
@@ -44,10 +54,10 @@ class ParticipantProfilFormType extends AbstractType
                 'constraints' => [
                     new File([
                         'maxSize' => '4096k',
-                        'mimeTypes' => [
-                            'application/png',
-                            'application/jpg',
-                        ],
+//                        'mimeTypes' => [
+//                            'image/png',
+//                            'imagejpg',
+//                        ],
                         'mimeTypesMessage' => 'Please upload a valid png or jpeg document',
                     ])
                 ],

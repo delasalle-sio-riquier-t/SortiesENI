@@ -82,7 +82,7 @@ class Participant implements UserInterface
     /**
      * @ORM\Column(type="string", length=20)
      */
-    private $Pseudo;
+    private $pseudo;
 
     /**
      * @ORM\Column(type="string", length=50, nullable=true)
@@ -308,14 +308,16 @@ class Participant implements UserInterface
 
     public function getPseudo(): ?string
     {
-        return $this->Pseudo;
+        return $this->pseudo;
     }
 
-    public function setPseudo(string $Pseudo): self
+    public function setPseudo(?string $pseudo): self
     {
-        $this->Pseudo = $Pseudo;
+        $this->pseudo = $pseudo;
+
+        return $this;
     }
-    
+
     public function getResetToken(): ?string
     {
         return $this->reset_token;
