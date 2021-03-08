@@ -48,6 +48,7 @@ class RegistrationFormType extends AbstractType
             ->add('prenom')
             ->add('nom')
             ->add('site')
+            ->add('pseudo')
             ->add('actif', CheckboxType::class,[
                 'label' =>'actif',
         ])
