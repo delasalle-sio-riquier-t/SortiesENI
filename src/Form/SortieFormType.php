@@ -21,6 +21,8 @@ class SortieFormType extends AbstractType
             ->add('etatSortie')
             ->add('Etat')
             ->add('lieu')
+            ->add('enregistrer', SubmitType::class, ['label' => 'enregistrer'])
+            ->add('publier', SubmitType::class, ['label' => 'publier'])
         ;
     }
 

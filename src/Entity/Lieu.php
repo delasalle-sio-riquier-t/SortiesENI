@@ -150,4 +150,9 @@ class Lieu
 
         return $this;
     }
+
+    public function __toString()
+    {
+        return $this->nom . " " . $this->rue . " " . $this->getIdVille()->getCodePostal() . " " . $this->getIdVille()->getNom();
+    }
 }

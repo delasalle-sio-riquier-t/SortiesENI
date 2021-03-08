@@ -15,7 +15,7 @@
             object-fit: contain;}
     </style>
     <img src="{{ asset('uploads/photos/' ~ ProfilPictureValue) }}" class="pictureProfile" alt="uploads/photos/{{ ProfilPictureValue }}">
-        {{ form_widget(participantForm)}}
+    {{ form_widget(participantForm)}}
         <button type="submit" class="btn">Update</button>
     {{ form_end(participantForm) }}
 {% endblock %}
