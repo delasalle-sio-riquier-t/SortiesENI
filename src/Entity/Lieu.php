@@ -19,10 +19,6 @@ class Lieu
      */
     private $id;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $idLieu;
 
     /**
      * @ORM\Column(type="text")
@@ -63,18 +59,6 @@ class Lieu
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getIdLieu(): ?int
-    {
-        return $this->idLieu;
-    }
-
-    public function setIdLieu(int $idLieu): self
-    {
-        $this->idLieu = $idLieu;
-
-        return $this;
     }
 
     public function getNom(): ?string
