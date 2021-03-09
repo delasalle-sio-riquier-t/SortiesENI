@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Sortie;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -17,6 +18,25 @@ class SortieRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Sortie::class);
+    }
+
+    public function findOneSortieAccount($id, $organisateur) {
+
+        $em = $this->getEntityManager();
+        $dql = 'SELECT s
+                FROM App\Entity\Sortie s
+                WHERE s.id = :id
+                AND s.organisateur = :organisateur';
+        $query = $em->createQuery($dql);
+
+        $query->setParameter('id', $id);
+        $query->setParameter('organisateur', $organisateur);
+        $query->setMaxResults(1);
+        try {
+            return $query->getOneOrNullResult();
+        } catch (NonUniqueResultException $e) {
+            //exception
+        }
     }
 
     // /**

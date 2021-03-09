@@ -11,6 +11,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 class SortieController extends AbstractController
@@ -85,8 +86,15 @@ class SortieController extends AbstractController
 
         //Creation d'une nouvelle sortie
         $repo = $this->getDoctrine()->getRepository(Sortie::class);
-        $sortie = $repo->find($id);
+        $sortie = $repo->findOneSortieAccount($id, $this->getUser()->getId());
 
+        if(!$sortie)
+            throw new NotFoundHttpException('Sortie not found');
+        //page erreur personnalisé
+//            return $this->render('sortie/erreurPage.html.twig', [
+//                'codeErreur' => 'Code erreur xxx',
+//                'msgErreur' => 'Exemple : Sortie non existante ou sortie ne vous appartenant pas',
+//            ]);;
 
         //creation du formulaire
         $form = $this->createForm( SortieFormType::class, $sortie);
