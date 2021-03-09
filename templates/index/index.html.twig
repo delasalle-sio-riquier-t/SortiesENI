@@ -8,5 +8,7 @@
 {% block main %}
     <p>Date du jour : {{ "now"|date("m/d/Y") }}</p><br>
     <p>Participant : {{ app.user.username }}</p><br>
-    
+    {% for sortie in sorties %}
+        <p>{{ sortie.nom }}</p>
+    {%  endfor %}
 {% endblock %}
