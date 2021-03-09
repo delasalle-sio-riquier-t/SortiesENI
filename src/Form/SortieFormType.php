@@ -19,11 +19,12 @@ class SortieFormType extends AbstractType
             ->add('limitInscription')
             ->add('nbInscriptionMax')
             ->add('infoSortie')
-            ->add('etatSortie')
-            ->add('Etat')
+//            ->add('etatSortie')
+//            ->add('Etat')
             ->add('lieu')
             ->add('enregistrer', SubmitType::class, ['label' => 'enregistrer'])
             ->add('publier', SubmitType::class, ['label' => 'publier'])
+            ->add('Annuler', SubmitType::class, ['label' => 'annuler'])
         ;
     }
 

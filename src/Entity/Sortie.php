@@ -35,7 +35,7 @@ class Sortie
     private $duree;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="datetime")
      */
     private $limitInscription;
 
@@ -123,12 +123,12 @@ class Sortie
         return $this;
     }
 
-    public function getLimitInscription(): ?int
+    public function getLimitInscription(): ?\DateTimeInterface
     {
         return $this->limitInscription;
     }
 
-    public function setLimitInscription(int $limitInscription): self
+    public function setLimitInscription(\DateTimeInterface $limitInscription): self
     {
         $this->limitInscription = $limitInscription;
 
