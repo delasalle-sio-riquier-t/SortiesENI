@@ -156,7 +156,7 @@ class SortieController extends AbstractController
                     if ( $sortie->getEtat()->getId() == Etat::NO_PUBLISHED) {
                         $em->remove($sortie);
                     }
-                    else {
+                    elseif($sortie->getEtat()->getId() == Etat::PUBLISHED) {
                         //Changer l'état et enregistrer
                         $sortie->setEtatSortie(Etat::CANCELED);
 
@@ -168,8 +168,15 @@ class SortieController extends AbstractController
                         $em->flush();
 
                         //set etat en annule + envoi mail etc
+                    }
+                    else {
+                        //Sortie
+                        $etat = '';
+
+                        //Etat
 
                     }
+                    //...
 
                     //add flash dans une modal box js avant le bouton qui fera appel au formulaire ?
 

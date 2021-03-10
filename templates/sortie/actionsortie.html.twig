@@ -11,13 +11,28 @@
         {{ form_row(sortieForm.nbInscriptionMax) }}
         {{ form_row(sortieForm.infoSortie) }}
         {{ form_row(sortieForm.lieu) }}
-        {{ form_row(sortieForm.enregistrer) }}
-        {{ form_row(sortieForm.publier) }}
-        {% if ( typeAction == 'Modification' and sortie.etat.id = 1) %}
+
+        {%  if ( typeAction == 'Création') %}
+                {{ form_row(sortieForm.enregistrer) }}
+        {% elseif (typeAction == 'Modification' and sortie.etat.id in [1,2] ) %}
+                {{ form_row(sortieForm.enregistrer) }}
+        {% endif %}
+
+        {%  if ( typeAction == 'Création') %}
+                {{ form_row(sortieForm.publier) }}
+        {% elseif (typeAction == 'Modification' and sortie.etat.id == 1 ) %}
+                {{ form_row(sortieForm.publier) }}
+        {% endif %}
+
+        {% if ( typeAction == 'Modification' and sortie.etat.id == 1) %}
                 {{ form_row(sortieForm.supprimer) }}
         {% endif %}
-        {%  if ( sortie.etat.id is in [1,2] ) %}
+
+        {%  if ( typeAction == 'Création') %}
+                <a href=" {{ path('index') }}"><input type="button" value="retour" class=""></a>
+        {% elseif (typeAction == 'Modification' and sortie.etat.id in [1,2] ) %}
                 {{ form_row(sortieForm.annuler) }}
         {% endif %}
+
         {{ form_end(sortieForm, {'render_rest': false}) }}
 {% endblock %}
