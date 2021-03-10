@@ -12,6 +12,12 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Etat
 {
+    const NO_PUBLISHED  = 1; //'non publié';
+    const PUBLISHED     = 2; //'publié';
+    const CANCELED      = 3; //'annulé';
+    const CLOSED        = 4; //'cloturé';
+    const ARCHIVED      = 5; //'archivé';
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue

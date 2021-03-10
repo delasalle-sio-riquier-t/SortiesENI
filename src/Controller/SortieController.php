@@ -16,11 +16,13 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SortieController extends AbstractController
 {
+
     /**
      * @Route("/sortie/create", name="sortie_create")
      */
     public function create(EntityManagerInterface $em, Request $request): Response
     {
+
         //Creation d'une nouvelle sortie
         $sortie = new Sortie();
 
@@ -37,10 +39,10 @@ class SortieController extends AbstractController
             if ($form->getClickedButton() === $form->get('enregistrer')){
                 // ...
                 //Pas utile
-                $sortie->setEtatSortie(0);
+                $sortie->setEtatSortie(Etat::NO_PUBLISHED);
 
                 $repo = $this->getDoctrine()->getRepository(Etat::class);
-                $etat = $repo->find('2');
+                $etat = $repo->find(Etat::NO_PUBLISHED);
 
                 $sortie->setEtat($etat);
 
@@ -55,6 +57,13 @@ class SortieController extends AbstractController
                 // ...
 
                 //Changer l'état et enregistrer
+                $sortie->setEtatSortie(Etat::PUBLISHED);
+
+                $repo = $this->getDoctrine()->getRepository(Etat::class);
+                $etat = $repo->find(Etat::PUBLISHED);
+
+                $sortie->setEtat($etat);
+
                 $em->persist($sortie);
                 $em->flush();
 
@@ -63,9 +72,7 @@ class SortieController extends AbstractController
             if ($form->getClickedButton() === $form->get('annuler')){
                 // ...
 
-                //Annuler ? supprimer ?
-                $em->persist($sortie);
-                $em->flush();
+                $this->redirectToRoute('index');
 
             }
 
@@ -75,6 +82,7 @@ class SortieController extends AbstractController
         return $this->render('sortie/actionsortie.html.twig', [
             'sortieForm' => $form->createView(),
             'typeAction' => (string) 'Création',
+            'sortie'        => $sortie,
         ]);
     }
 
@@ -85,9 +93,14 @@ class SortieController extends AbstractController
     {
 
         //Creation d'une nouvelle sortie
-        $repo = $this->getDoctrine()->getRepository(Sortie::class);
-        $sortie = $repo->findOneSortieAccount($id, $this->getUser()->getId());
+        //repo Etat
+        $repoEtat = $this->getDoctrine()->getRepository(Etat::class);
 
+        //Repo Sortie
+        $repoSortie = $this->getDoctrine()->getRepository(Sortie::class);
+        $sortie = $repoSortie->find($id);
+
+        //Si pas trouver
         if(!$sortie)
             throw new NotFoundHttpException('Sortie not found');
         //page erreur personnalisé
@@ -96,56 +109,96 @@ class SortieController extends AbstractController
 //                'msgErreur' => 'Exemple : Sortie non existante ou sortie ne vous appartenant pas',
 //            ]);;
 
-        //creation du formulaire
-        $form = $this->createForm( SortieFormType::class, $sortie);
-        $form->handleRequest($request);
+        //Si trouver mais pas organisateur on met en écriture sinon qu'en lecture avec des bouton d'aficchage etc
+        if($sortie->getOrganisateur()->getId() == $this->getUser()->getId()) {
 
-        //condition si formulare validé etc alors on fait le traitement ce dessus pour l'add a la bdd !
-        if ($form->isSubmitted() && $form->isValid()) {
+            //pour toute modif verification de la date de debut -24h ? afin depas modifier pendant la sortie et juste avant
+            //enreg  : bouton grissé ou js pop up avec annonce -> vous ne pouvez pas modifier 24h avant etc
+            //Publier : Bouton grisé ou js pop up avec annonce -> la sortie est déjà publié !
 
-            if ($form->getClickedButton() === $form->get('enregistrer')){
-                // ...
-                //Pas utile
-                $sortie->setEtatSortie(0);
+            //creation du formulaire
+            $form = $this->createForm(SortieFormType::class, $sortie);
+            $form->handleRequest($request);
 
-                $repo = $this->getDoctrine()->getRepository(Etat::class);
-                $etat = $repo->find('2');
+            //condition si formulare validé etc alors on fait le traitement ce dessus pour l'add a la bdd !
+            if ($form->isSubmitted() && $form->isValid()) {
 
-                $sortie->setEtat($etat);
+                if ($form->getClickedButton() === $form->get('enregistrer')) {
+                    // ...
 
-                //enregistrer ta sortie
-                $em->persist($sortie);
-                $em->flush();
+                    //enregistrer ta sortie
+                    $em->persist($sortie);
+                    $em->flush();
 
-                //add flash msg "enreg terminer avec succes ou erreur etc"
-                return $this->redirectToRoute('sortie_fiche', ['id'=>$sortie->getId()]);
+                    //add flash msg "enreg terminer avec succes ou erreur etc"
+                    return $this->redirectToRoute('sortie_fiche', ['id' => $sortie->getId()]);
+                }
+
+                if ($form->getClickedButton() === $form->get('publier')) {
+                    // ...
+
+                    //Changer l'état et enregistrer
+                    $sortie->setEtatSortie(Etat::PUBLISHED);
+
+                    $etat = $repoEtat->find(Etat::PUBLISHED);
+
+                    $sortie->setEtat($etat);
+
+                    $em->persist($sortie);
+                    $em->flush();
+
+                }
+
+                if ($form->getClickedButton() === $form->get('annuler')) {
+                    // ...
+
+                    //Suppression de la sortie si pas publier sinon -> annuler
+                    if ( $sortie->getEtat()->getId() == Etat::NO_PUBLISHED) {
+                        $em->remove($sortie);
+                    }
+                    else {
+                        //Changer l'état et enregistrer
+                        $sortie->setEtatSortie(Etat::CANCELED);
+
+                        $etat = $repoEtat->find(Etat::CANCELED);
+
+                        $sortie->setEtat($etat);
+
+                        $em->persist($sortie);
+                        $em->flush();
+
+                        //set etat en annule + envoi mail etc
+
+                    }
+
+                    //add flash dans une modal box js avant le bouton qui fera appel au formulaire ?
+
+                    //add flash pour signaler le bon fonctionnement de l'action
+
+                    $this->redirectToRoute('index');
+
+                }
+
+
+                if ($form->getClickedButton() === $form->get('annuler')) {
+                    // ...
+
+                    $this->redirectToRoute('index');
+
+                }
             }
-
-            if ($form->getClickedButton() === $form->get('publier')){
-                // ...
-
-                //Changer l'état et enregistrer
-                $em->persist($sortie);
-                $em->flush();
-
-            }
-
-            if ($form->getClickedButton() === $form->get('annuler')){
-                // ...
-
-                //Annuler ? supprimer ?
-                $em->persist($sortie);
-                $em->flush();
-
-            }
-
+            return $this->render('Sortie/actionsortie.html.twig', [
+                'sortieForm'    => $form->createView(),
+                'typeAction'    => (string) 'Modification',
+                'sortie'        => $sortie,
+            ]);
         }
-
-        return $this->render('Sortie/actionsortie.html.twig', [
-            'sortieForm' => $form->createView(),
-            'typeAction' => (string) 'Modification',
-            'idSortie'   => $sortie->getId(),
-        ]);
+        else
+        {
+            return $this->render('Sortie/ficheSortie.html.twig', [
+                'sortie' => $sortie,
+            ]);
+        }
     }
 
     //delete ?

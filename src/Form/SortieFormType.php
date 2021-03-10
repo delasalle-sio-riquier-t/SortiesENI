@@ -24,7 +24,8 @@ class SortieFormType extends AbstractType
             ->add('lieu')
             ->add('enregistrer', SubmitType::class, ['label' => 'enregistrer'])
             ->add('publier', SubmitType::class, ['label' => 'publier'])
-            ->add('Annuler', SubmitType::class, ['label' => 'annuler'])
+            ->add('supprimer', SubmitType::class, ['label' => 'supprimer'])
+            ->add('annuler', SubmitType::class, ['label' => 'annuler'])
         ;
     }
 
