@@ -78,7 +78,6 @@ class SortieController extends AbstractController
 
         }
 
-
         return $this->render('sortie/actionsortie.html.twig', [
             'sortieForm' => $form->createView(),
             'typeAction' => (string) 'Création',
@@ -147,6 +146,7 @@ class SortieController extends AbstractController
                     $em->persist($sortie);
                     $em->flush();
 
+                    return $this->redirectToRoute('index');
                 }
 
                 if ($form->getClickedButton() === $form->get('annuler')) {
@@ -155,6 +155,7 @@ class SortieController extends AbstractController
                     //Suppression de la sortie si pas publier sinon -> annuler
                     if ( $sortie->getEtat()->getId() == Etat::NO_PUBLISHED) {
                         $em->remove($sortie);
+                        $em->flush();
                     }
                     elseif($sortie->getEtat()->getId() == Etat::PUBLISHED) {
                         //Changer l'état et enregistrer
@@ -182,15 +183,16 @@ class SortieController extends AbstractController
 
                     //add flash pour signaler le bon fonctionnement de l'action
 
-                    $this->redirectToRoute('index');
+                    return $this->redirectToRoute('index');
 
                 }
 
 
-                if ($form->getClickedButton() === $form->get('annuler')) {
+                if ($form->getClickedButton() === $form->get('supprimer')) {
                     // ...
-
-                    $this->redirectToRoute('index');
+                    $em->remove($sortie);
+                    $em->flush();
+                    return $this->redirectToRoute('index');
 
                 }
             }
@@ -209,4 +211,11 @@ class SortieController extends AbstractController
     }
 
     //delete ?
+    /**
+     * @Route("/annulationSortie/{id}", name="sortie_ficheAnnulation", requirements={"id":"\d+"})
+     */
+    public function Annuler($id, Request $request, EntityManagerInterface $em): Response
+    {
+
+    }
 }
