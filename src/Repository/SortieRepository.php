@@ -39,6 +39,21 @@ class SortieRepository extends ServiceEntityRepository
         }
     }
 
+    public function findSortiesByEtat($etat){
+        $em = $this->getEntityManager();
+        $dql = 'SELECT s
+                FROM App\Entity\Sortie s
+                WHERE s.Etat = :Etat';
+        $query = $em->createQuery($dql);
+
+        $query->setParameter('Etat', $etat);
+        try {
+            return $query->getOneOrNullResult();
+        } catch (NonUniqueResultException $e) {
+            //exception
+        }
+    }
+
     // /**
     //  * @return Sortie[] Returns an array of Sortie objects
     //  */
