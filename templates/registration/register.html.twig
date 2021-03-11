@@ -1,21 +1,33 @@
 {% extends 'layout/LayoutBloc.html.twig' %}
 
 {% block title %}Register{% endblock %}
-
+{% block css %}
+    <link rel="stylesheet" href="{{ asset('css/Style.css') }}">
+{% endblock %}
 {% block main %}
     {% for flashError in app.flashes('verify_email_error') %}
         <div class="alert alert-danger" role="alert">{{ flashError }}</div>
     {% endfor %}
+<div class="container">
+    <div class="center">
+        <h1>Register</h1>
 
-    <h1>Register</h1>
+        {{ form_start(registrationForm) }}
+            {{ form_row(registrationForm.pseudo,{ 'attr': {'class': 'form-control'} }) }}
+            {{ form_row(registrationForm.nom, { 'attr': {'class': 'form-control'} })}}
+            {{ form_row(registrationForm.prenom,{ 'attr': {'class': 'form-control'} })}}
+            {{ form_row(registrationForm.mail,{ 'attr': {'class': 'form-control'} }) }}
+            {{ form_row(registrationForm.plainPassword, {
+                label: 'Password',
+                attr: {'class': 'form-control'}
+            }) }}
+            {{ form_row(registrationForm.telephone,{ 'attr': {'class': 'form-control'} }) }}
+            {{ form_row(registrationForm.site,{ 'attr': {'class': 'form-control'} }) }}
+            {{ form_row(registrationForm.actif,{ 'attr': {'class': 'form-control'} }) }}
+            {{ form_row(registrationForm.agreeTerms,{ 'attr': {'class': 'form-control'} }) }}
 
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.mail) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
-
-        <button type="submit" class="btn">Register</button>
-    {{ form_end(registrationForm) }}
+            <button type="submit" class="btn">Register</button>
+        {{ form_end(registrationForm) }}
+    </div>
+</div>
 {% endblock %}
