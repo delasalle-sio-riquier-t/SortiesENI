@@ -312,6 +312,9 @@
     "symfony/options-resolver": {
         "version": "v4.4.19"
     },
+    "symfony/polyfill-intl-grapheme": {
+        "version": "v1.22.1"
+    },
     "symfony/polyfill-intl-icu": {
         "version": "v1.22.1"
     },
@@ -395,6 +398,9 @@
     "symfony/stopwatch": {
         "version": "v4.4.19"
     },
+    "symfony/string": {
+        "version": "v5.2.4"
+    },
     "symfony/swiftmailer-bundle": {
         "version": "2.5",
         "recipe": {
@@ -467,6 +473,9 @@
     },
     "twbs/bootstrap": {
         "version": "v4.6.0"
+    },
+    "twig/string-extra": {
+        "version": "v3.3.0"
     },
     "twig/twig": {
         "version": "v3.3.0"

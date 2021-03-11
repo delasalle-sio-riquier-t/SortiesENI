@@ -8,17 +8,18 @@
 {% block main %}
     <p>Date du jour : {{ "now"|date("m/d/Y") }}</p><br>
     <p>Participant : {{ app.user.username }}</p><br>
+    {{ selectEtat }}
     <div style="display: flex; justify-content: flex-end">
-                <select class="form-select form-select-sm" aria-label=".form-select-sm example">
-                    {# {% for etat in etats %}
-                        <option>{{ etat.libelle }}</option>
-                    {% endfor %}#}
-                </select>
-                <a type="button" href="{{ path('index') }}" class="btn btn-primary" role="button">Appliquer</a>
-        {{ form_start(filtreForm) }}
-            {{ form_row(filtreForm.etats) }}
-            <button type="submit" class="btn btn-primary">Appliquer</button>
-        {{ form_end(filtreForm) }}
+        {#<select id="selectEtat" class="form-select form-select-sm" aria-label=".form-select-sm example" onchange="{% if true %}{{ render(controller('NameOfYourBundle:IndexController:SetSelectEtat', { 'newValue': this.value }))}}{% endif %}">
+              {% for etat in etats %}
+                <option value="{{etat.libelle}}">{{ etat.libelle }}</option>
+            {% endfor %}#}
+            {{ form_start(form) }}
+                {{ form_widget(form) }}
+                <input type="submit"/>
+        {{ form_end(form) }}
+        {#</select>
+          <a type="button" href="{{ path('index')}}" class="btn btn-primary" role="button">Appliquer</a>#}
     </div>
     <table class="table table-dark">
         <thead>

@@ -43,12 +43,11 @@ class SortieRepository extends ServiceEntityRepository
         $em = $this->getEntityManager();
         $dql = 'SELECT s
                 FROM App\Entity\Sortie s
-                WHERE s.Etat = :Etat';
+                WHERE s.Etat = :etat';
         $query = $em->createQuery($dql);
-
-        $query->setParameter('Etat', $etat);
+        $query->setParameter('etat', $etat);
         try {
-            return $query->getOneOrNullResult();
+            return $query->getResult();
         } catch (NonUniqueResultException $e) {
             //exception
         }
