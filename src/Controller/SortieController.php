@@ -185,49 +185,54 @@ class SortieController extends AbstractController
      */
     public function annuler($id, Request $request, EntityManagerInterface $em): Response
     {
-
-
         $repoEtat   = $this->getDoctrine()->getRepository(Etat::class);
         $repoSortie = $this->getDoctrine()->getRepository(Sortie::class);
         $sortie     = $repoSortie->find($id);
 
-
         //Suppression de la sortie si pas publier sinon -> annuler
         if($sortie && $this->getUser()->getId() == $sortie->getOrganisateur()->getId()) {
 
-            if ( $sortie->getEtat()->getId() == Etat::NO_PUBLISHED) {
-                $em->remove($sortie);
-                $em->flush();
+            $form = $this->createForm(SortieFormType::class, $sortie);
+            $form->handleRequest($request);
+
+            //condition si formulare validé etc alors on fait le traitement ce dessus pour l'add a la bdd !
+            if ($form->isSubmitted() && $form->isValid() && $form->getClickedButton() === $form->get('annuler')) {
+
+                //si le formulaire est envoyé sinon o naffiche avec render la page d'annulation
+
+                if ($sortie->getEtat()->getId() == Etat::NO_PUBLISHED) {
+                    $em->remove($sortie);
+                    $em->flush();
+                } elseif ($sortie->getEtat()->getId() == Etat::PUBLISHED) {
+                    //Changer l'état et enregistrer
+                    $sortie->setEtatSortie(Etat::CANCELED);
+
+                    $etat = $repoEtat->find(Etat::CANCELED);
+
+                    $sortie->setEtat($etat);
+
+                    $em->persist($sortie);
+                    $em->flush();
+
+                    return $this->redirectToRoute('sortie_fiche', ['id' => $id]);
+                }
+
+                //add flash dans une modal box js avant le bouton qui fera appel au formulaire ?
+
+                //add flash pour signaler le bon fonctionnement de l'action
+
+                return $this->redirectToRoute('index');
             }
-            elseif($sortie->getEtat()->getId() == Etat::PUBLISHED) {
-                //Changer l'état et enregistrer
-                $sortie->setEtatSortie(Etat::CANCELED);
 
-                $etat = $repoEtat->find(Etat::CANCELED);
+            return $this->render('Sortie/annulation.html.twig', [
+                'sortieForm'    => $form->createView(),
+                'sortie'        => $sortie,
+            ]);
 
-                $sortie->setEtat($etat);
-
-                $em->persist($sortie);
-                $em->flush();
-
-                //set etat en annule + envoi mail etc
-                //
-
-                return $this->redirectToRoute('sortie_fiche',['id' => $id]);
-            }
-
-            //add flash dans une modal box js avant le bouton qui fera appel au formulaire ?
-
-            //add flash pour signaler le bon fonctionnement de l'action
-
-            return $this->redirectToRoute('index');
-
+        } elseif (!$sortie) {
+            throw new NotFoundHttpException('Sortie non trouvé !');
+        } else {
+            throw new AccessDeniedHttpException('Action non authorisé !');
         }
-        elseif (!$sortie) {
-            throw new NotFoundHttpException('Sortie not found');
-        }else{
-            throw new AccessDeniedHttpException('');
-        }
-
     }
 }
