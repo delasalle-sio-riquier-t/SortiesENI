@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Etat;
 use App\Entity\Participant;
 use App\Entity\Sortie;
+use App\Form\AnnulationType;
 use App\Form\SortieFormType;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -192,7 +193,7 @@ class SortieController extends AbstractController
         //Suppression de la sortie si pas publier sinon -> annuler
         if($sortie && $this->getUser()->getId() == $sortie->getOrganisateur()->getId()) {
 
-            $form = $this->createForm(SortieFormType::class, $sortie);
+            $form = $this->createForm(AnnulationType::class, $sortie);
             $form->handleRequest($request);
 
             //condition si formulare validé etc alors on fait le traitement ce dessus pour l'add a la bdd !
