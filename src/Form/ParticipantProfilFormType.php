@@ -30,8 +30,8 @@ class ParticipantProfilFormType extends AbstractType
                 'type'              => PasswordType::class,
                 'mapped'            => false,
                 'required'          => false,
-                'first_options'     => array('label' => 'New password'),
-                'second_options'    => array('label' => 'Confirm new password'),
+                'first_options'     => array('label' => 'New password','attr'=>['class'=>'form-control']),
+                'second_options'    => array('label' => 'Confirm new password','attr'=>['class'=>'form-control']),
                 'invalid_message' => 'The password fields must match.',
             ))
 //            ->add('confirmation', TextType::class, [
@@ -39,6 +39,7 @@ class ParticipantProfilFormType extends AbstractType
 //                'mapped' => false,
 //            ])
             ->add('pseudo')
+            ->add('site')
             ->add('photo', FileType::class, [
                 'label' => 'Photo (png, jpg)',
 

@@ -2,37 +2,45 @@
 
 {% block title %} Sortie {{ sortie.id }}{% endblock %}
 
+{% block css %}
+        <link rel="stylesheet" href="{{ asset('css/Style.css') }}">
+{% endblock %}
+
 {% block main %}
-        {{ form_start(sortieForm) }}
-        {{ form_row(sortieForm.nom) }}
-        {{ form_row(sortieForm.datedebut) }}
-        {{ form_row(sortieForm.duree) }}
-        {{ form_row(sortieForm.limitInscription) }}
-        {{ form_row(sortieForm.nbInscriptionMax) }}
-        {{ form_row(sortieForm.infoSortie) }}
-        {{ form_row(sortieForm.lieu) }}
+<div class="container">
+        <div class="center">
+                {{ form_start(sortieForm) }}
+                {{ form_row(sortieForm.nom,{ 'attr': {'class': 'form-control'} })}}
+                {{ form_row(sortieForm.datedebut) }}
+                {{ form_row(sortieForm.duree,{ 'attr': {'class': 'form-control'} }) }}
+                {{ form_row(sortieForm.limitInscription) }}
+                {{ form_row(sortieForm.nbInscriptionMax,{ 'attr': {'class': 'form-control'} }) }}
+                {{ form_row(sortieForm.infoSortie,{ 'attr': {'class': 'form-control'} }) }}
+                {{ form_row(sortieForm.lieu,{ 'attr': {'class': 'form-control'} }) }}
 
-        {%  if ( typeAction == 'Création') %}
-                {{ form_row(sortieForm.enregistrer) }}
-        {% elseif (typeAction == 'Modification' and sortie.etat.id in [1,2] ) %}
-                {{ form_row(sortieForm.enregistrer) }}
-        {% endif %}
+                {%  if ( typeAction == 'Création') %}
+                        {{ form_row(sortieForm.enregistrer)}}
+                {% elseif (typeAction == 'Modification' and sortie.etat.id in [1,2] ) %}
+                        {{ form_row(sortieForm.enregistrer) }}
+                {% endif %}
 
-        {%  if ( typeAction == 'Création') %}
-                {{ form_row(sortieForm.publier) }}
-        {% elseif (typeAction == 'Modification' and sortie.etat.id == 1 ) %}
-                {{ form_row(sortieForm.publier) }}
-        {% endif %}
+                {%  if ( typeAction == 'Création') %}
+                        {{ form_row(sortieForm.publier) }}
+                {% elseif (typeAction == 'Modification' and sortie.etat.id == 1 ) %}
+                        {{ form_row(sortieForm.publier) }}
+                {% endif %}
 
-        {% if ( typeAction == 'Modification' and sortie.etat.id == 1) %}
-                {{ form_row(sortieForm.supprimer) }}
-        {% endif %}
+                {% if ( typeAction == 'Modification' and sortie.etat.id == 1) %}
+                        {{ form_row(sortieForm.supprimer) }}
+                {% endif %}
 
-        {%  if ( typeAction == 'Création') %}
-                <a href=" {{ path('index') }}"><input type="button" value="retour" class=""></a>
-        {% elseif (typeAction == 'Modification' and sortie.etat.id in [1,2] ) %}
-                {{ form_row(sortieForm.annuler) }}
-        {% endif %}
+                {%  if ( typeAction == 'Création') %}
+                        <a href=" {{ path('index') }}"><input type="button" value="retour" class=""></a>
+                {% elseif (typeAction == 'Modification' and sortie.etat.id in [1,2] ) %}
+                        {{ form_row(sortieForm.annuler) }}
+                {% endif %}
 
-        {{ form_end(sortieForm, {'render_rest': false}) }}
+                {{ form_end(sortieForm, {'render_rest': false}) }}
+        </div>
+</div>
 {% endblock %}

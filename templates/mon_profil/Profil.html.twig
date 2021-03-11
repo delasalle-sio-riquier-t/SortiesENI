@@ -1,21 +1,32 @@
 {% extends 'layout/LayoutBloc.html.twig' %}
 
 {% block title %}Profil{% endblock %}
+{% block css %}
+    <link rel="stylesheet" href="{{ asset('css/Style.css') }}">
+{% endblock %}
 
 {% block main %}
+    <div class="container">
+        <div class="center">
+            <h1>Profil</h1>
 
-    <h1>Profil</h1>
+            {{ form_start(participantForm) }}
 
-    {{ form_start(participantForm) }}
-    <style type="text/css">
-        .pictureProfile {
-            width: 300px;
-            height: 300px;
-            border: 3px solid black;
-            object-fit: contain;}
-    </style>
-    <img src="{{ asset('uploads/photos/' ~ ProfilPictureValue) }}" class="pictureProfile" alt="uploads/photos/{{ ProfilPictureValue }}">
-    {{ form_widget(participantForm)}}
-        <button type="submit" class="btn">Update</button>
-    {{ form_end(participantForm) }}
+            <img src="{{ asset('uploads/photos/' ~ ProfilPictureValue) }}" class="img" alt="uploads/photos/{{ ProfilPictureValue }}">
+
+            {{ form_row(participantForm.prenom,{ 'attr': {'class': 'form-control'} }) }}
+            {{ form_row(participantForm.nom,{ 'attr': {'class': 'form-control'} }) }}
+            {{ form_row(participantForm.mail,{ 'attr': {'class': 'form-control'} }) }}
+            {{ form_row(participantForm.telephone,{ 'attr': {'class': 'form-control'} }) }}
+            {{ form_row(participantForm.plainPassword) }}
+            {{ form_row(participantForm.pseudo,{ 'attr': {'class': 'form-control'} }) }}
+            {{ form_row(participantForm.site,{ 'attr': {'class': 'form-control'} }) }}
+            {{ form_row(participantForm.photo,{ 'attr': {'class': 'form-control'} }) }}
+            <div class="span">
+                <button type="submit" class="btn btn-lg btn-primary">Update</button>
+            </div>
+            {{ form_end(participantForm) }}
+
+        </div>
+    </div>
 {% endblock %}
