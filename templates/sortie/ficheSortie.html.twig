@@ -1,9 +1,23 @@
 {% extends 'layout/LayoutBloc.html.twig' %}
 
-{% block title %} Sortie {{idSortie}} {% endblock %}
+{% block title %} Afficher une sortie {% endblock %}
 
 {% block main %}
 
-    <p> {{ sortie.id }} et tout le reste des data mamene</p>
+    <p> Nom de la sortie : {{ sortie.nom }} </p>
+    <p> Date et heure de la sortie : {{ sortie.nom }} </p>
+    <p> Date limite d'inscription : {{ sortie.nom }} </p>
+    <p> Nombre de places : {{ sortie.nbInscriptionMax }} </p>
+    <p> Durée : {{ sortie.nom }} min </p>
+    <p> Description et infos : {{ sortie.id }} </p>
+    <p> Lieu : {{ sortie.lieu.nom }} </p>
+    <p> Rue : {{ sortie.lieu.rue }} </p>
+    <p> Ville : {{ sortie.lieu.idVille.nom }} </p>
+    <p> Code postal : {{ sortie.lieu.idVille.codePostal}} </p>
+    <p> Latitude : {{ sortie.lieu.latitude }} </p>
+    <p> Longitude : {{ sortie.lieu.longitude }} </p>
+
+
+
 
 {% endblock %}
