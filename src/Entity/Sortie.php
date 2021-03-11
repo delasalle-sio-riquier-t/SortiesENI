@@ -77,6 +77,11 @@ class Sortie
      */
     private $ManyToMany;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $motifAnnulation;
+
     public function __construct()
     {
         $this->ManyToMany = new ArrayCollection();
@@ -239,6 +244,18 @@ class Sortie
     public function removeManyToMany(Participant $manyToMany): self
     {
         $this->ManyToMany->removeElement($manyToMany);
+
+        return $this;
+    }
+
+    public function getMotifAnnulation(): ?string
+    {
+        return $this->motifAnnulation;
+    }
+
+    public function setMotifAnnulation(?string $motifAnnulation): self
+    {
+        $this->motifAnnulation = $motifAnnulation;
 
         return $this;
     }

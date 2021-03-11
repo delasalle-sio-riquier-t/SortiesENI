@@ -13,7 +13,7 @@ class AnnulationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('infoSortie')
+            ->add('motifAnnulation')
             ->add('annuler', SubmitType::class, ['label' => 'annuler'])
         ;
     }
