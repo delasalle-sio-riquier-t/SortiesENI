@@ -5,41 +5,42 @@
     <link rel="stylesheet" href="{{ asset('css/Style.css') }}">
 {% endblock %}
 {% block main %}
-<div class="container">
-    <div class="center">
-        <form method="post">
-            {% if error %}
-                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-            {% endif %}
 
-            {% if app.user %}
-                <div class="flash-success">
-                    You are logged in as {{ app.user.username }}
-                </div>
-            {% endif %}
+    <div class="container">
+        <div class="center">
+            <form method="post">
+                {% if error %}
+                    <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                {% endif %}
 
-            <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+                {% if app.user %}
+                    <div class="flash-success">
+                        You are logged in as {{ app.user.username }}
+                    </div>
+                {% endif %}
 
-            <label for="inputMail">Mail</label>
+                <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
 
-            <input type="text" value="{{ last_username }}" name="mail" id="inputMail" class="form-control" required autofocus>
-            <label for="inputPassword">Password</label>
-            <input type="password" name="password" id="inputPassword" class="form-control" required>
-            <input type="hidden" name="_csrf_token"
-                   value="{{ csrf_token('authenticate') }}"
-            >
+                <label for="inputMail">Mail</label>
 
-                <div class="checkbox mb-3">
-                    <label>
-                        <input type="checkbox" name="_remember_me"> Remember me
-                    </label>
-                </div>
+                <input type="text" value="{{ last_username }}" name="mail" id="inputMail" class="form-control" required autofocus>
+                <label for="inputPassword">Password</label>
+                <input type="password" name="password" id="inputPassword" class="form-control" required>
+                <input type="hidden" name="_csrf_token"
+                       value="{{ csrf_token('authenticate') }}"
+                >
+
+                    <div class="checkbox mb-3">
+                        <label>
+                            <input type="checkbox" name="_remember_me"> Remember me
+                        </label>
+                    </div>
 
 
-            <button class="btn btn-lg btn-primary" type="submit">
-                Sign in
-            </button>
-        </form>
+                <button class="btn btn-lg btn-primary" type="submit">
+                    Sign in
+                </button>
+            </form>
+        </div>
     </div>
-</div>
 {% endblock %}

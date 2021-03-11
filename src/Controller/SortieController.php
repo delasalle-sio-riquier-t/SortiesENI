@@ -11,6 +11,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -130,7 +131,7 @@ class SortieController extends AbstractController
                     $em->flush();
 
                     //add flash msg "enreg terminer avec succes ou erreur etc"
-                    return $this->redirectToRoute('sortie_fiche', ['id' => $sortie->getId()]);
+
                 }
 
                 if ($form->getClickedButton() === $form->get('publier')) {
@@ -146,44 +147,12 @@ class SortieController extends AbstractController
                     $em->persist($sortie);
                     $em->flush();
 
-                    return $this->redirectToRoute('index');
+                    //add flash msg "enreg terminer avec succes ou erreur etc"
                 }
 
                 if ($form->getClickedButton() === $form->get('annuler')) {
                     // ...
-
-                    //Suppression de la sortie si pas publier sinon -> annuler
-                    if ( $sortie->getEtat()->getId() == Etat::NO_PUBLISHED) {
-                        $em->remove($sortie);
-                        $em->flush();
-                    }
-                    elseif($sortie->getEtat()->getId() == Etat::PUBLISHED) {
-                        //Changer l'état et enregistrer
-                        $sortie->setEtatSortie(Etat::CANCELED);
-
-                        $etat = $repoEtat->find(Etat::CANCELED);
-
-                        $sortie->setEtat($etat);
-
-                        $em->persist($sortie);
-                        $em->flush();
-
-                        //set etat en annule + envoi mail etc
-                    }
-                    else {
-                        //Sortie
-                        $etat = '';
-
-                        //Etat
-
-                    }
-                    //...
-
-                    //add flash dans une modal box js avant le bouton qui fera appel au formulaire ?
-
-                    //add flash pour signaler le bon fonctionnement de l'action
-
-                    return $this->redirectToRoute('index');
+                    return $this->redirectToRoute('sortie_ficheAnnulation',['id' => $id]);
 
                 }
 
@@ -214,8 +183,51 @@ class SortieController extends AbstractController
     /**
      * @Route("/annulationSortie/{id}", name="sortie_ficheAnnulation", requirements={"id":"\d+"})
      */
-    public function Annuler($id, Request $request, EntityManagerInterface $em): Response
+    public function annuler($id, Request $request, EntityManagerInterface $em): Response
     {
+
+
+        $repoEtat   = $this->getDoctrine()->getRepository(Etat::class);
+        $repoSortie = $this->getDoctrine()->getRepository(Sortie::class);
+        $sortie     = $repoSortie->find($id);
+
+
+        //Suppression de la sortie si pas publier sinon -> annuler
+        if($sortie && $this->getUser()->getId() == $sortie->getOrganisateur()->getId()) {
+
+            if ( $sortie->getEtat()->getId() == Etat::NO_PUBLISHED) {
+                $em->remove($sortie);
+                $em->flush();
+            }
+            elseif($sortie->getEtat()->getId() == Etat::PUBLISHED) {
+                //Changer l'état et enregistrer
+                $sortie->setEtatSortie(Etat::CANCELED);
+
+                $etat = $repoEtat->find(Etat::CANCELED);
+
+                $sortie->setEtat($etat);
+
+                $em->persist($sortie);
+                $em->flush();
+
+                //set etat en annule + envoi mail etc
+                //
+
+                return $this->redirectToRoute('sortie_fiche',['id' => $id]);
+            }
+
+            //add flash dans une modal box js avant le bouton qui fera appel au formulaire ?
+
+            //add flash pour signaler le bon fonctionnement de l'action
+
+            return $this->redirectToRoute('index');
+
+        }
+        elseif (!$sortie) {
+            throw new NotFoundHttpException('Sortie not found');
+        }else{
+            throw new AccessDeniedHttpException('');
+        }
 
     }
 }
