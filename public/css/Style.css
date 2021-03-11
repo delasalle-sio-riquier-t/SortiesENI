@@ -1,0 +1,17 @@
+.center{
+    width: 300px;
+    text-align: center;
+    margin: 0 auto;
+    display:block;
+}
+.flash {
+    margin: 20px;
+    padding: 10px;
+    border-radius: 5px;
+}
+.flash-success {
+    background-color: lightgreen;
+}
+.flash-error {
+    background-color: darkred;
+}
