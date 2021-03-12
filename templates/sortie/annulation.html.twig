@@ -10,7 +10,7 @@
             <h1>Annulation sortie</h1>
             {{ form_start(sortieForm) }}
             <div class="disabled">
-                {{ form_row(sortieForm.nom) }}
+                {{ form_row(sortieForm.nom)|date() }}
                 {{ form_row(sortieForm.datedebut) }}
                 {{ form_row(sortieForm.site) }}
                 {{ form_row(sortieForm.lieu) }}

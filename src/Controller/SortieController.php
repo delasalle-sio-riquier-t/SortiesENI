@@ -176,8 +176,13 @@ class SortieController extends AbstractController
         }
         else
         {
+            $lesParticipants = $sortie->getManyToMany();
+            $nbParticipantInscrit = count($lesParticipants);
+
             return $this->render('Sortie/ficheSortie.html.twig', [
-                'sortie' => $sortie,
+                'sortie'        => $sortie,
+                'nbInscripts'    => $nbParticipantInscrit,
+                'lesParticipants' => $lesParticipants,
             ]);
         }
     }
@@ -237,5 +242,40 @@ class SortieController extends AbstractController
         } else {
             throw new AccessDeniedHttpException('Action non authorisé !');
         }
+    }
+
+    /**
+     * @Route("/sortie/inscription", name="inscription")
+     */
+    public function inscription(Request $request, EntityManagerInterface $em): Response
+    {
+        if(isset($_POST['idSortie'])){
+            $idSortie = $_POST['idSortie'];
+            $repoSortie = $this->getDoctrine()->getRepository(Sortie::class);
+            $sortie = $repoSortie->find($idSortie);
+
+            if (!$sortie){
+                throw new NotFoundHttpException('Sortie not found');
+            }
+
+            //verif nb utilisateur
+
+            $participant = $this->getUser()->getId();
+            $sortie->addManyToMany($participant);
+
+            $em->persist($sortie);
+            $em->flush();
+
+        }
+
+        return $this->redirectToRoute('sortie_ficheAnnulation',['id' => $sortie]);
+    }
+
+    /**
+     * @Route("/sortie/desinscription", name="desinscription")
+     */
+    public function desinscription($id, Request $request, EntityManagerInterface $em): Response
+    {
+
     }
 }

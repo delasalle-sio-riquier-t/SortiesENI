@@ -5,8 +5,8 @@
 {% block main %}
 
     <p> Nom de la sortie : {{ sortie.nom }} </p>
-    <p> Date et heure de la sortie : {{ sortie.nom|date("m/d/Y") }} </p>
-    <p> Date limite d'inscription : {{ sortie. |date("m/d/Y") }} </p>
+    <p> Date et heure de la sortie : {{ sortie.dateDebut|date('d M Y') }} </p>
+    <p> Date limite d'inscription : {{ sortie.limitInscription |date('d M Y') }} </p>
     <p> Nombre de places : {{ sortie.nbInscriptionMax }} </p>
     <p> Durée : {{ sortie.nom }} min </p>
     <p> Description et infos : {{ sortie.id }} </p>
@@ -17,6 +17,13 @@
     <p> Latitude : {{ sortie.lieu.latitude }} </p>
     <p> Longitude : {{ sortie.lieu.longitude }} </p>
 
+    {% if(nbInscripts < sortie.nbInscriptionMax and sortie.etat.id < 3) %}
+    <form action="{{ path('inscription', {'id': sortie.id}) }}" method="post">
+        <input type="submit" value="inscrire" class="">
+    </form>
+    {% else %}
+        {# Ici block avec une notif ! Aucune inscription de disponible ou type = cloturé #}
+    {% endif %}
     <a href=" {{ path('index') }}"><input type="button" value="retour" class=""></a>
 
 
