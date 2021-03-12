@@ -43,7 +43,7 @@
                 {{ form_end(sortieForm, {'render_rest': false}) }}
         </div>
     {% if ( typeAction == 'Modification') %}
-    <p>Liste des inscrit :</p>
+    <p>Liste des inscrit : {{ nbInscripts }}/{{ sortie.nbInscriptionMax }}</p>
     <div class="container">
         <table class="table">
             <thead>

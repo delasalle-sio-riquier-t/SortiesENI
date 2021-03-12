@@ -26,8 +26,8 @@ class SortieFormType extends AbstractType
                 'days'      => range(date('d'), 31)
             ])
             ->add('duree', IntegerType::class, [
-                'label'     => 'Durée de la sortie',
-                'attr'      => ['min' => 1, 'max'   => 10]
+                'label'     => 'Durée de la sortie (minutes)',
+                'attr'      => ['min' => 1, 'max'   => 300]
             ])
             ->add('limitInscription', DateTimeType::class, [
                 'label'     => 'Date limite d\'inscription',

@@ -38,6 +38,10 @@ class SortieController extends AbstractController
         //condition si formulare validé etc alors on fait le traitement ce dessus pour l'add a la bdd !
         if ($form->isSubmitted() && $form->isValid()) {
 
+            $sortie->setSite($this->getUser()->getSite());
+
+            $sortie->addManyToMany($this->getUser());
+
             if ($form->getClickedButton() === $form->get('enregistrer')){
                 // ...
                 //Pas utile
@@ -48,9 +52,7 @@ class SortieController extends AbstractController
 
                 $sortie->setEtat($etat);
 
-                $sortie->setSite($this->getUser()->getSite());
 
-                $sortie->addManyToMany($this->getUser());
 
                 //enregistrer ta sortie
                 $em->persist($sortie);
@@ -73,6 +75,7 @@ class SortieController extends AbstractController
                 $em->persist($sortie);
                 $em->flush();
 
+                return $this->redirectToRoute('sortie_fiche', ['id'=>$sortie->getId()]);
             }
 
             if ($form->getClickedButton() === $form->get('annuler')){
@@ -106,6 +109,7 @@ class SortieController extends AbstractController
         $sortie = $repoSortie->find($id);
 
         $lesParticipants = $sortie->getManyToMany();
+        $nbParticipantInscrit = count($lesParticipants);
 
         //Si pas trouver
         if(!$sortie)
@@ -176,13 +180,14 @@ class SortieController extends AbstractController
                 'sortieForm'    => $form->createView(),
                 'typeAction'    => (string) 'Modification',
                 'sortie'        => $sortie,
-                'lesParticipants' => $lesParticipants
+                'lesParticipants' => $lesParticipants,
+                'nbInscripts'   => $nbParticipantInscrit
             ]);
         }
         else
         {
 
-            $nbParticipantInscrit = count($lesParticipants);
+
             $dejaInscrit = false;
 
             //control si user deja inscrit, renvoyer faux a mettre dans la condition d'afficahge du form

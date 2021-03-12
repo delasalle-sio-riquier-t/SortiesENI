@@ -35,10 +35,11 @@
                 <input type="submit" value="desinscrire" class="">
             </form>
         {% else %}
-        {# Ici block avec une notif ! Aucune inscription de disponible ou type = cloturé #}
+            {# Ici block avec une notif ! Aucune inscription de disponible ou type = cloturé #}
+        {% endif %}
     {% endif %}
 
-        <p>Liste des inscrit :</p>
+        <p>Liste des inscrit : {{ nbInscripts }}/{{ sortie.nbInscriptionMax }}</p>
     <div class="container">
 
 
