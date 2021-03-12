@@ -82,6 +82,12 @@ class Sortie
      */
     private $motifAnnulation;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Site::class, inversedBy="sorties")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $site;
+
     public function __construct()
     {
         $this->ManyToMany = new ArrayCollection();
@@ -214,12 +220,12 @@ class Sortie
 
     public function getSite(): ?Site
     {
-        return $this->Site;
+        return $this->site;
     }
 
     public function setSite(?Site $Site): self
     {
-        $this->Site = $Site;
+        $this->site = $Site;
 
         return $this;
     }

@@ -34,11 +34,12 @@
                         {{ form_row(sortieForm.supprimer) }}
                 {% endif %}
 
-                {%  if ( typeAction == 'Création') %}
-                        <a href=" {{ path('index') }}"><input type="button" value="retour" class=""></a>
-                {% elseif (typeAction == 'Modification' and sortie.etat.id in [1,2] ) %}
-                        {{ form_row(sortieForm.annuler) }}
+                {% if (typeAction == 'Modification' and sortie.etat.id in [1,2] ) %}
+                    {{ form_row(sortieForm.annuler) }}
                 {% endif %}
+
+                <a href=" {{ path('index') }}"><input type="button" value="retour" class="btn btn-lg btn-primary"></a>
+
 
                 {{ form_end(sortieForm, {'render_rest': false}) }}
         </div>

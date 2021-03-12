@@ -5,8 +5,8 @@
 {% block main %}
 
     <p> Nom de la sortie : {{ sortie.nom }} </p>
-    <p> Date et heure de la sortie : {{ sortie.nom }} </p>
-    <p> Date limite d'inscription : {{ sortie.nom }} </p>
+    <p> Date et heure de la sortie : {{ sortie.nom|date("m/d/Y") }} </p>
+    <p> Date limite d'inscription : {{ sortie. |date("m/d/Y") }} </p>
     <p> Nombre de places : {{ sortie.nbInscriptionMax }} </p>
     <p> Durée : {{ sortie.nom }} min </p>
     <p> Description et infos : {{ sortie.id }} </p>
@@ -17,7 +17,7 @@
     <p> Latitude : {{ sortie.lieu.latitude }} </p>
     <p> Longitude : {{ sortie.lieu.longitude }} </p>
 
-
+    <a href=" {{ path('index') }}"><input type="button" value="retour" class="btn btn-lg btn-primary"></a>
 
 
 {% endblock %}

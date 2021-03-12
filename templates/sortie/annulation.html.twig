@@ -4,11 +4,14 @@
 
 {% block main %}
     <h1>Annulation sortie</h1>
-    <p>{{ sortie.id }}</p>
-    <p>{{ sortie.nom }}</p>
+
     {{ form_start(sortieForm) }}
+        {{ form_row(sortieForm.nom,{'attr': {'class' : 'form-control-plaintext'}}) }}
+        {{ form_row(sortieForm.datedebut, {'attr': {'class' : 'form-control-plaintext'}}) }}
+        {{ form_row(sortieForm.site, {'attr': {'class' : 'form-control-plaintext'}} ) }}
+        {{ form_row(sortieForm.lieu, {'attr': {'class' : 'form-control-plaintext'}} ) }}
         {{ form_row(sortieForm.motifAnnulation, {'attr': {'class' : 'form-control'}} ) }}
         {{ form_row(sortieForm.annuler) }}
-        <a href=" {{ path('index') }}"><input type="button" value="retour" class=""></a>
+    <a href=" {{ path('index') }}"><input type="button" value="retour" class="btn btn-lg btn-primary"></a>
     {{ form_end(sortieForm, {'render_rest': false}) }}
 {% endblock %}

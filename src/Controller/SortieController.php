@@ -48,6 +48,8 @@ class SortieController extends AbstractController
 
                 $sortie->setEtat($etat);
 
+                $sortie->setSite($this->getUser()->getSite());
+
                 //enregistrer ta sortie
                 $em->persist($sortie);
                 $em->flush();
