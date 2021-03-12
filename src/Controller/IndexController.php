@@ -24,7 +24,6 @@ class IndexController extends AbstractController
         $formBuilder = $this->createFormBuilder()
             ->add('Etat', ChoiceType::class, ['choices' => [
                 'Publié' => Etat::PUBLISHED,
-                'Non Publié' => Etat::NO_PUBLISHED,
                 'Annulé'=>Etat::CANCELED,
                 'Cloturé'=>Etat::CLOSED,
                 'Archivé'=>Etat::ARCHIVED,
