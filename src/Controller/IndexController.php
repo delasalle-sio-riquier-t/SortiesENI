@@ -26,7 +26,6 @@ class IndexController extends AbstractController
                 'Publié' => Etat::PUBLISHED,
                 'Annulé'=>Etat::CANCELED,
                 'Cloturé'=>Etat::CLOSED,
-                'Archivé'=>Etat::ARCHIVED,
             ]]);
         $form = $formBuilder->getForm();
         $form->handleRequest($request);
