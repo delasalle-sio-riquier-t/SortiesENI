@@ -50,6 +50,8 @@ class SortieController extends AbstractController
 
                 $sortie->setSite($this->getUser()->getSite());
 
+                $sortie->addManyToMany($this->getUser());
+
                 //enregistrer ta sortie
                 $em->persist($sortie);
                 $em->flush();
@@ -178,11 +180,18 @@ class SortieController extends AbstractController
         {
             $lesParticipants = $sortie->getManyToMany();
             $nbParticipantInscrit = count($lesParticipants);
+            $dejaInscrit = false;
+
+            //control si user deja inscrit, renvoyer faux a mettre dans la condition d'afficahge du form
+            if ($lesParticipants->contains($this->getUser())) {
+                $dejaInscrit = true;
+            };
 
             return $this->render('Sortie/ficheSortie.html.twig', [
-                'sortie'        => $sortie,
-                'nbInscripts'    => $nbParticipantInscrit,
-                'lesParticipants' => $lesParticipants,
+                'sortie'            => $sortie,
+                'nbInscripts'       => $nbParticipantInscrit,
+                'lesParticipants'   => $lesParticipants,
+                'dejaInscrit'       => $dejaInscrit
             ]);
         }
     }
@@ -245,30 +254,27 @@ class SortieController extends AbstractController
     }
 
     /**
-     * @Route("/sortie/inscription", name="inscription")
+     * @Route("/sortie/inscription/{id}", name="inscription", requirements={"id":"\d+"} )
      */
-    public function inscription(Request $request, EntityManagerInterface $em): Response
+    public function inscription($id, Request $request, EntityManagerInterface $em): Response
     {
-        if(isset($_POST['idSortie'])){
-            $idSortie = $_POST['idSortie'];
-            $repoSortie = $this->getDoctrine()->getRepository(Sortie::class);
-            $sortie = $repoSortie->find($idSortie);
 
-            if (!$sortie){
-                throw new NotFoundHttpException('Sortie not found');
-            }
+        $repoSortie = $this->getDoctrine()->getRepository(Sortie::class);
+        $sortie = $repoSortie->find($id);
 
-            //verif nb utilisateur
-
-            $participant = $this->getUser()->getId();
-            $sortie->addManyToMany($participant);
-
-            $em->persist($sortie);
-            $em->flush();
-
+        if (!$sortie){
+            throw new NotFoundHttpException('Sortie not found');
         }
 
-        return $this->redirectToRoute('sortie_ficheAnnulation',['id' => $sortie]);
+        //verif nb utilisateur
+
+        $participant = $this->getUser();
+        $sortie->addManyToMany($participant);
+
+        $em->persist($sortie);
+        $em->flush();
+
+        return $this->redirectToRoute('sortie_fiche',['id' => $id]);
     }
 
     /**

@@ -8,8 +8,8 @@
     <p> Date et heure de la sortie : {{ sortie.dateDebut|date('d M Y') }} </p>
     <p> Date limite d'inscription : {{ sortie.limitInscription |date('d M Y') }} </p>
     <p> Nombre de places : {{ sortie.nbInscriptionMax }} </p>
-    <p> Durée : {{ sortie.nom }} min </p>
-    <p> Description et infos : {{ sortie.id }} </p>
+    <p> Durée : {{ sortie.duree }} min </p>
+    <p> Description et infos : {{ sortie.infoSortie }} </p>
     <p> Lieu : {{ sortie.lieu.nom }} </p>
     <p> Rue : {{ sortie.lieu.rue }} </p>
     <p> Ville : {{ sortie.lieu.idVille.nom }} </p>
@@ -17,13 +17,18 @@
     <p> Latitude : {{ sortie.lieu.latitude }} </p>
     <p> Longitude : {{ sortie.lieu.longitude }} </p>
 
-    {% if(nbInscripts < sortie.nbInscriptionMax and sortie.etat.id < 3) %}
-    <form action="{{ path('inscription', {'id': sortie.id}) }}" method="post">
-        <input type="submit" value="inscrire" class="">
-    </form>
+    {% if(dejaInscrit == false) %}
+        {% if(nbInscripts < sortie.nbInscriptionMax and sortie.etat.id < 3) %}
+        <form action="{{ path('inscription', {'id': sortie.id}) }}" method="post">
+            <input type="submit" value="inscrire" class="">
+        </form>
+        {% else %}
+            {# Ici block avec une notif ! Aucune inscription de disponible ou type = cloturé #}
+        {% endif %}
     {% else %}
         {# Ici block avec une notif ! Aucune inscription de disponible ou type = cloturé #}
     {% endif %}
+
     <a href=" {{ path('index') }}"><input type="button" value="retour" class=""></a>
 
 
