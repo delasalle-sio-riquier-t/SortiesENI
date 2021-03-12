@@ -105,6 +105,8 @@ class SortieController extends AbstractController
         $repoSortie = $this->getDoctrine()->getRepository(Sortie::class);
         $sortie = $repoSortie->find($id);
 
+        $lesParticipants = $sortie->getManyToMany();
+
         //Si pas trouver
         if(!$sortie)
             throw new NotFoundHttpException('Sortie not found');
@@ -174,11 +176,12 @@ class SortieController extends AbstractController
                 'sortieForm'    => $form->createView(),
                 'typeAction'    => (string) 'Modification',
                 'sortie'        => $sortie,
+                'lesParticipants' => $lesParticipants
             ]);
         }
         else
         {
-            $lesParticipants = $sortie->getManyToMany();
+
             $nbParticipantInscrit = count($lesParticipants);
             $dejaInscrit = false;
 
@@ -278,10 +281,25 @@ class SortieController extends AbstractController
     }
 
     /**
-     * @Route("/sortie/desinscription", name="desinscription")
+     * @Route("/sortie/desinscription/{id}", name="desinscription", requirements={"id":"\d+"})
      */
     public function desinscription($id, Request $request, EntityManagerInterface $em): Response
     {
+        $repoSortie = $this->getDoctrine()->getRepository(Sortie::class);
+        $sortie = $repoSortie->find($id);
 
+        if (!$sortie){
+            throw new NotFoundHttpException('Sortie not found');
+        }
+
+        //verif nb utilisateur
+
+        $participant = $this->getUser();
+        $sortie->removeManyToMany($participant);
+
+        $em->persist($sortie);
+        $em->flush();
+
+        return $this->redirectToRoute('sortie_fiche',['id' => $id]);
     }
 }

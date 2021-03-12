@@ -22,14 +22,19 @@
     <p> Longitude : {{ sortie.lieu.longitude }} </p>
 
     {% if(dejaInscrit == false) %}
-        {% if(nbInscripts < sortie.nbInscriptionMax and sortie.etat.id < 3) %}
-        <form action="{{ path('inscription', {'id': sortie.id}) }}" method="post">
-            <input type="submit" value="inscrire" class="">
-        </form>
+        {% if(nbInscripts < sortie.nbInscriptionMax and sortie.etat.id == 2) %}
+            <form action="{{ path('inscription', {'id': sortie.id}) }}" method="post">
+                <input type="submit" value="inscrire" class="">
+            </form>
         {% else %}
             {# Ici block avec une notif ! Aucune inscription de disponible ou type = cloturé #}
         {% endif %}
     {% else %}
+        {% if(sortie.etat.id in [2,3]) %}
+            <form action="{{ path('desinscription', {'id': sortie.id}) }}" method="post">
+                <input type="submit" value="desinscrire" class="">
+            </form>
+        {% else %}
         {# Ici block avec une notif ! Aucune inscription de disponible ou type = cloturé #}
     {% endif %}
 

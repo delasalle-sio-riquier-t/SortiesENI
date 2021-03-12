@@ -42,5 +42,26 @@
 
                 {{ form_end(sortieForm, {'render_rest': false}) }}
         </div>
+    {% if ( typeAction == 'Modification') %}
+    <p>Liste des inscrit :</p>
+    <div class="container">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope ='col'>pseudo</th>
+                <th scope ='col'>Participant</th>
+            </tr>
+            </thead>
+            {% for participant in lesParticipants %}
+                <tbody>
+                <tr>
+                    <td>{{ participant.pseudo }}</td>
+                    <td>{{ participant.prenom }} {{ participant.nom }}</td>
+                </tr>
+                </tbody>
+            {%  endfor %}
+        </table>
+    </div>
+    {% endif %}
 </div>
 {% endblock %}
