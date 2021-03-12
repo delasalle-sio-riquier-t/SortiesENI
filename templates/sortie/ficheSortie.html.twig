@@ -2,6 +2,10 @@
 
 {% block title %} Afficher une sortie {% endblock %}
 
+{% block css %}
+    <link rel="stylesheet" href="{{ asset('css/Style.css') }}">
+{% endblock %}
+
 {% block main %}
 
     <p> Nom de la sortie : {{ sortie.nom }} </p>
@@ -28,6 +32,31 @@
     {% else %}
         {# Ici block avec une notif ! Aucune inscription de disponible ou type = cloturé #}
     {% endif %}
+
+        <p>Liste des inscrit :</p>
+    <div class="container">
+
+
+            <table class="table">
+                <thead>
+                <tr>
+                <th scope ='col'>pseudo</th>
+                <th scope ='col'>nom</th>
+                </tr>
+                </thead>
+                    {% for participant in lesParticipants %}
+                    <tbody>
+                        <tr>
+                            <td >{{ participant.pseudo }}</td>
+                            <td>{{ participant.nom }}</td>
+                        </tr>
+                    </tbody>
+                    {%  endfor %}
+
+            </table>
+            
+    </div>
+
 
     <a href=" {{ path('index') }}"><input type="button" value="retour" class=""></a>
 
