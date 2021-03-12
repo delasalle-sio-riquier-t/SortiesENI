@@ -25,3 +25,8 @@
     border: 1px solid grey;
     object-fit: fill;
 }
+
+:disabled {
+    background: white;
+    border-color: white;
+}

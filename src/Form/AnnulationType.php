@@ -17,16 +17,20 @@ class AnnulationType extends AbstractType
         $builder
             ->add('nom', textType::class, [
                 'disabled'  => true,
+                'attr'      => ['class' => 'form-control-plaintext', 'readonly' => true],
             ])
             ->add('datedebut', DateTimeType::class, [
-                'widget'   => 'single_text',
+                'widget'    => 'single_text',
                 'disabled'  => true,
+                'attr'      => ['class' => 'form-control-plaintext'],
             ])
             ->add('site',textType::class, [
                 'disabled'  => true,
+                'attr'      => ['class' => 'form-control-plaintext'],
             ])
             ->add('lieu',textType::class, [
                 'disabled'  => true,
+                'attr'      => ['class' => 'form-control-plaintext'],
             ])
             ->add('motifAnnulation')
             ->add('annuler', SubmitType::class, ['label' => 'annuler'])
